@@ -45,7 +45,7 @@
                     {{-- Mostrar imagen si existe --}}
                 @if ($post->imagen)
                     <div class="mt-2">
-                        <img src="{{ asset($post->imagen) }}" alt="Imagen del post" class="w-32 h-32 object-cover rounded">
+                    <img src="{{ asset($post->imagen) }}" alt="Imagen del post" class="w-32 h-32 object-cover rounded">
                     </div>
                 @endif
                 </div>

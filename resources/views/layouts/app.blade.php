@@ -99,10 +99,10 @@
     <div class="p-4 sm:ml-64 bg-gray-100 dark:bg-gray-900 min-h-screen">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
 
-        {{-- Aquí se inyecta el contenido Blade tradicional --}}
+        {{-- contenido Blade tradicional --}}
         @yield('content')
 
-        {{-- Para Livewire slot si usas componentes Livewire --}}
+        {{-- Para Livewire slot --}}
         @isset($slot)
             {{ $slot }}
         @endisset
@@ -111,7 +111,7 @@
 
     @livewireScripts
 
-    {{-- Opcional: script para toggle sidebar (usando Flowbite o custom JS) --}}
+    {{-- Opcional: script para toggle sidebar (usando Flowbite) --}}
     <script>
       document.querySelectorAll('[data-drawer-toggle]').forEach(button => {
         button.addEventListener('click', () => {

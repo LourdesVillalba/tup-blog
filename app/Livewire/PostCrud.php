@@ -44,7 +44,7 @@ class PostCrud extends Component
         Post::create([
             'titulo' => $this->titulo,
             'contenido' => $this->contenido,
-            'imagen' => $imagenPath ? str_replace('public/', 'storage/', $imagenPath) : null,
+            'imagen' => $imagenPath = $this->imagen ? $this->imagen->store('posts', 'public') : null,
             'user_id' => Auth::id(),
         ]);
 
