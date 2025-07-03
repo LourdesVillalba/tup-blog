@@ -65,24 +65,40 @@ class PostCrud extends Component
     public function actualizar()
     {
         $this->validate();
-
+    
         $post = Post::findOrFail($this->post_id);
-
-        $imagenPath = $this->imagen ? $this->imagen->store('public/posts') : $post->imagen;
-
+    
+        // Si se sube una nueva imagen, eliminar la anterior
+        if ($this->imagen && $post->imagen && \Storage::disk('public')->exists($post->imagen)) {
+            \Storage::disk('public')->delete($post->imagen);
+        }
+    
+        // Guardar nueva imagen si hay
+        $imagenPath = $this->imagen ? $this->imagen->store('posts', 'public') : $post->imagen;
+    
         $post->update([
             'titulo' => $this->titulo,
             'contenido' => $this->contenido,
-            'imagen' => $imagenPath ? str_replace('public/', 'storage/', $imagenPath) : null,
+            'imagen' => $imagenPath,
         ]);
-
+    
         session()->flash('mensaje', 'Post actualizado correctamente.');
         $this->resetCampos();
     }
+    
 
     public function eliminar($id)
     {
-        Post::destroy($id);
+        $post = Post::findOrFail($id);
+    
+        // Eliminar imagen del storage si existe
+        if ($post->imagen && \Storage::disk('public')->exists($post->imagen)) {
+            \Storage::disk('public')->delete($post->imagen);
+        }
+    
+        $post->delete();
+    
         session()->flash('mensaje', 'Post eliminado correctamente.');
     }
+    
 }

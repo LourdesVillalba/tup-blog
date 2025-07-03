@@ -29,8 +29,7 @@
         @forelse ($posts as $post)
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition hover:shadow-lg">
                 @if ($post->imagen)
-                <img src="{{ asset($post->imagen) }}" alt="Imagen del post">
-
+                <img src="{{ asset('storage/' . $post->imagen) }}" alt="Imagen del post">
                 @endif
                 <div class="p-4">
                     <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">{{ $post->titulo }}</h2>
