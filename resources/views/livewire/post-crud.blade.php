@@ -1,4 +1,4 @@
-<div class="max-w-3xl mx-auto p-6 bg-gray-50 dark:bg-gray-800 rounded-lg shadow border text-gray-800 dark:text-gray-100">
+<div class="max-w-5xl mx-auto p-6 bg-gray-50 dark:bg-gray-900 rounded-lg shadow text-gray-800 dark:text-gray-100">
 
 
     @if (session()->has('mensaje'))
@@ -82,23 +82,30 @@
 
     {{-- Mostrar la lista solo si no estamos en modo "soloFormulario" --}}
     @if (!$soloFormulario)
-        <ul class="space-y-4">
-            @foreach ($posts as $post)
-                <li class="border-b pb-4">
-                    <h3 class="font-semibold">{{ $post->titulo }}</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-300">{{ Str::limit($post->contenido, 100) }}</p>
-
-                    @if ($post->imagen)
-                        <img src="{{ asset('storage/' . $post->imagen) }}" class="mt-2 max-w-xs rounded">
-                    @endif
-
-                    <div class="mt-2 flex gap-4">
-                        <button wire:click="editar({{ $post->id }})" class="text-blue-600 hover:underline">Editar</button>
-                        <button wire:click="eliminar({{ $post->id }})" class="text-red-600 hover:underline">Eliminar</button>
+    <div class="space-y-6"> {{-- Contenedor principal con espacio entre tarjetas --}}
+        @forelse ($posts as $post)
+            <div class="flex flex-col md:flex-row items-center bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 overflow-hidden">
+                @if ($post->imagen)
+                    <div class="w-full md:w-48 h-48 md:h-auto overflow-hidden flex-shrink-0">
+                        <img class="object-cover w-full h-full rounded-t-lg md:rounded-none md:rounded-l-lg" src="{{ asset('storage/' . $post->imagen) }}" alt="Imagen del post: {{ $post->titulo }}">
                     </div>
-                </li>
-            @endforeach
-        </ul>
-    @endif
-
+                @endif
+                <div class="flex flex-col justify-between p-4 leading-normal w-full">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $post->titulo }}</h5>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ Str::limit($post->contenido, 120) }}</p>
+                    <div class="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400 mt-2">
+                        {{-- Usando el formato de fecha d/m/Y --}}
+                        <span>Publicado: {{ $post->created_at->format('d/m/Y') }}</span> 
+                        <div class="flex gap-3">
+                            <button wire:click="editar({{ $post->id }})" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Editar</button>
+                            <button wire:click="eliminar({{ $post->id }})" class="font-medium text-red-600 dark:text-red-500 hover:underline">Eliminar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @empty
+            <p class="text-center text-lg text-gray-600 dark:text-gray-300 py-8">No has creado ningún post todavía.</p>
+        @endforelse
+    </div>
+@endif
 </div>

@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\PostCrud;
-use App\Models\Post; // Asegúrate de que este import esté presente
+use App\Models\Post; 
+
 
 // Ruta para la página de inicio
 Route::get('/', function () {
@@ -28,3 +30,12 @@ Route::get('/register', Register::class)->name('register');
 Route::get('/mis-posts', function () {
     return view('mis-posts');
 })->middleware('auth')->name('mis-posts');
+
+
+// Middleware para admin
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin', function () {
+        return view('admin');
+    })->name('admin.panel');
+});
+

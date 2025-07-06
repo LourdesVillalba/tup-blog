@@ -101,6 +101,14 @@
                     Mis Posts
                 </a>
             @endauth
+            @auth
+                @if (auth()->user()->is_admin)
+                    <a href="{{ route('admin.panel') }}" class="block px-4 py-2 text-red-600 hover:bg-gray-100 dark:text-red-400 dark:hover:bg-gray-700">
+                        Panel de Administración
+                    </a>
+                @endif
+            @endauth
+
              <li>
                 @livewire('auth.logout')
             </li>
