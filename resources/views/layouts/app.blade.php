@@ -28,8 +28,7 @@
           @auth
               <button 
                   onclick="Livewire.dispatch('abrirModalCrearDesdeNavbar')" 
-                  class="bg-green-600 text-white px-4 py-2 rounded text-sm me-4 hover:bg-green-700"
-              >
+                  class="bg-green-600 text-white px-4 py-2 rounded text-sm me-4 hover:bg-green-700">
                   Crear Post
               </button>
           @endauth
@@ -132,7 +131,7 @@
 
     @livewireScripts
 
-    {{-- Opcional: script para toggle sidebar (usando Flowbite) --}}
+    {{--script para toggle sidebar (usando Flowbite) --}}
     <script>
       document.querySelectorAll('[data-drawer-toggle]').forEach(button => {
         button.addEventListener('click', () => {
