@@ -8,7 +8,7 @@
 </head>
 <body class="bg-gray-100 text-gray-900">
 
-    {{-- Navbar fijo superior --}}
+{{-- Navbar fijo superior --}}
     <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
       <div class="px-3 py-3 lg:px-5 lg:pl-3">
         <div class="flex items-center justify-between">
@@ -25,6 +25,14 @@
             </a>
           </div>
           <div class="flex items-center">
+          @auth
+              <button 
+                  onclick="Livewire.dispatch('abrirModalCrearDesdeNavbar')" 
+                  class="bg-green-600 text-white px-4 py-2 rounded text-sm me-4 hover:bg-green-700"
+              >
+                  Crear Post
+              </button>
+          @endauth
               <div class="flex items-center ms-3">
                 <div>
                   <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
@@ -33,8 +41,8 @@
                         <img class="w-8 h-8 rounded-full" src="{{ Auth::user()->profile_photo_url ?? 'https://flowbite.com/docs/images/people/profile-picture-5.jpg' }}" alt="{{ Auth::user()->name }}">
                     @else
                         <svg class="w-8 h-8 rounded-full bg-gray-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" >
-                          <circle cx="12" cy="12" r="10" stroke="none"></circle>
-                          <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                            <circle cx="12" cy="12" r="10" stroke="none"></circle>
+                            <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
                         </svg>
                     @endauth
                   </button>

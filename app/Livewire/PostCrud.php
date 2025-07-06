@@ -16,6 +16,7 @@ class PostCrud extends Component
     public $soloFormulario = false;
     public $mostrarModal = false;
     public $iteration = 0;////////
+    protected $listeners = ['abrirModalCrearDesdeNavbar' => 'abrirModalCrear'];
 
 
     protected $rules = [
@@ -76,20 +77,18 @@ class PostCrud extends Component
         $this->mostrarModal = true;
     }
 
-    public function cerrarModal()
-{
-    $this->reset(['titulo', 'contenido', 'imagen', 'modoEdicion']);
-    $this->mostrarModal = false;
-}
+        public function cerrarModal()
+    {
+        $this->reset(['titulo', 'contenido', 'imagen', 'modoEdicion']);
+        $this->mostrarModal = false;
+    }
 
-public function abrirModalCrear()
-{
-    $this->resetCampos(); // Limpiar datos anteriores
-    $this->modoEdicion = false;
-    $this->mostrarModal = true;
-}
-
-    
+    public function abrirModalCrear()
+    {
+        $this->resetCampos(); // Limpiar datos anteriores
+        $this->modoEdicion = false;
+        $this->mostrarModal = true;
+    }
 
     public function actualizar()
     {
@@ -131,11 +130,11 @@ public function abrirModalCrear()
     
         session()->flash('mensaje', 'Post eliminado correctamente.');
     }
-/////////////////////////////////////////////
-    public function mount($soloFormulario = false)
-{
-    $this->soloFormulario = $soloFormulario;
-}
-
     
+    /////////////////////////////////////////////
+        public function mount($soloFormulario = false)
+    {
+        $this->soloFormulario = $soloFormulario;
+    }
+
 }
