@@ -88,6 +88,11 @@
                 </a>
              </li>
              {{-- Agrega más ítems aquí --}}
+             @auth
+                <a href="{{ route('mis-posts') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
+                    Mis Posts
+                </a>
+            @endauth
              <li>
                 @livewire('auth.logout')
             </li>

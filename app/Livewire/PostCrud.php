@@ -13,6 +13,7 @@ class PostCrud extends Component
 
     public $posts, $titulo, $contenido, $imagen, $post_id;
     public $modoEdicion = false;
+    public $soloFormulario = false;/////////////////
 
     protected $rules = [
         'titulo' => 'required|string|max:255',
@@ -22,7 +23,7 @@ class PostCrud extends Component
 
     public function render()
     {
-        $this->posts = Post::where('user_id', Auth::id())->get();
+        $this->posts = Post::where('user_id', Auth::id())->orderByDesc('created_at')->get();
         return view('livewire.post-crud')->layout('layouts.app');
     }
 
@@ -38,19 +39,22 @@ class PostCrud extends Component
     public function guardar()
     {
         $this->validate();
-
-        $imagenPath = $this->imagen ? $this->imagen->store('public/posts') : null;
-
+    
+        $imagenPath = $this->imagen ? $this->imagen->store('posts', 'public') : null;
+    
         Post::create([
             'titulo' => $this->titulo,
             'contenido' => $this->contenido,
-            'imagen' => $imagenPath = $this->imagen ? $this->imagen->store('posts', 'public') : null,
+            'imagen' => $imagenPath,
             'user_id' => Auth::id(),
         ]);
-
+    
         session()->flash('mensaje', 'Post creado correctamente.');
+        $this->dispatch('postCreado');//emite un evento Livewire que el otro componente (ListaPostsPublicos) puede escuchar.
         $this->resetCampos();
+        
     }
+    
 
     public function editar($id)
     {
@@ -100,5 +104,11 @@ class PostCrud extends Component
     
         session()->flash('mensaje', 'Post eliminado correctamente.');
     }
+/////////////////////////////////////////////
+    public function mount($soloFormulario = false)
+{
+    $this->soloFormulario = $soloFormulario;
+}
+
     
 }
