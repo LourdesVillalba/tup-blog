@@ -13,7 +13,10 @@ class PostCrud extends Component
 
     public $posts, $titulo, $contenido, $imagen, $post_id;
     public $modoEdicion = false;
-    public $soloFormulario = false;/////////////////
+    public $soloFormulario = false;
+    public $mostrarModal = false;
+    public $iteration = 0;////////
+
 
     protected $rules = [
         'titulo' => 'required|string|max:255',
@@ -26,6 +29,7 @@ class PostCrud extends Component
         $this->posts = Post::where('user_id', Auth::id())->orderByDesc('created_at')->get();
         return view('livewire.post-crud')->layout('layouts.app');
     }
+    
 
     public function resetCampos()
     {
@@ -34,37 +38,58 @@ class PostCrud extends Component
         $this->imagen = null;
         $this->post_id = null;
         $this->modoEdicion = false;
+        $this->iteration++;
     }
 
     public function guardar()
     {
-        $this->validate();
+        try {
+            $this->validate();
     
-        $imagenPath = $this->imagen ? $this->imagen->store('posts', 'public') : null;
+            $imagenPath = $this->imagen ? $this->imagen->store('posts', 'public') : null;
     
-        Post::create([
-            'titulo' => $this->titulo,
-            'contenido' => $this->contenido,
-            'imagen' => $imagenPath,
-            'user_id' => Auth::id(),
-        ]);
+            Post::create([
+                'titulo' => $this->titulo,
+                'contenido' => $this->contenido,
+                'imagen' => $imagenPath,
+                'user_id' => Auth::id(),
+            ]);
     
-        session()->flash('mensaje', 'Post creado correctamente.');
-        $this->dispatch('postCreado');//emite un evento Livewire que el otro componente (ListaPostsPublicos) puede escuchar.
-        $this->resetCampos();
-        
+            session()->flash('mensaje', 'Post creado correctamente.');
+            $this->dispatch('postCreado');
+            $this->resetCampos();
+            $this->mostrarModal = false;
+        } catch (\Exception $e) {
+            session()->flash('mensaje', 'Error al guardar: ' . $e->getMessage());
+        }
     }
+    
     
 
     public function editar($id)
     {
         $post = Post::findOrFail($id);
-
-        $this->post_id = $post->id;
         $this->titulo = $post->titulo;
         $this->contenido = $post->contenido;
+        $this->post_id = $post->id;
         $this->modoEdicion = true;
+        $this->mostrarModal = true;
     }
+
+    public function cerrarModal()
+{
+    $this->reset(['titulo', 'contenido', 'imagen', 'modoEdicion']);
+    $this->mostrarModal = false;
+}
+
+public function abrirModalCrear()
+{
+    $this->resetCampos(); // Limpiar datos anteriores
+    $this->modoEdicion = false;
+    $this->mostrarModal = true;
+}
+
+    
 
     public function actualizar()
     {
@@ -88,6 +113,8 @@ class PostCrud extends Component
     
         session()->flash('mensaje', 'Post actualizado correctamente.');
         $this->resetCampos();
+        $this->mostrarModal = false;
+
     }
     
 

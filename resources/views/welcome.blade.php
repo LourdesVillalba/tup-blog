@@ -10,7 +10,8 @@
             <p class="mt-2 text-green-600 dark:text-green-400">Hola, {{ Auth::user()->name }}</p>
 
             {{-- Formulario de creación --}}
-            @livewire('post-crud', ['soloFormulario' => true]){{-- Formulario de creación --}}{{-- Formulario de creación --}}
+            @livewire('post-crud', ['soloFormulario' => true])
+
         @else
             <p class="mt-2 text-gray-700 dark:text-gray-300">
                 Explorá los últimos posts o
