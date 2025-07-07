@@ -19,8 +19,15 @@
                         <path fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z" clip-rule="evenodd"></path>
                     </svg>
                 </button>
-                <a href="{{ route('inicio') }}" class="flex ms-2 md:me-24">
-                    <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="Logo TUPBlog" />
+                <a href="{{ route('inicio') }}" class="flex ms-2 md:me-24 items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" class="h-8 w-8 me-3" fill="none">
+                        <rect width="60" height="60" fill="white" />
+                        <rect x="10" y="10" width="10" height="40" fill="black" />
+                        <circle cx="30" cy="22" r="12" fill="white" />
+                        <circle cx="30" cy="38" r="12" fill="white" />
+                        <path d="M20 10 h15 a12 12 0 1 1 0 24 h-15 z" fill="black" />
+                        <path d="M20 28 h15 a12 12 0 1 1 0 24 h-15 z" fill="black" />
+                    </svg>
                     <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">TUPBlog</span>
                 </a>
             </div>
@@ -41,7 +48,6 @@
                 class="inline-block px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg shadow hover:bg-blue-700 transition-colors duration-200 dark:bg-blue-500 dark:hover:bg-blue-600">
                   Iniciar sesión
               </a>
-
                 @endauth
             </div>
         </div>
@@ -53,12 +59,10 @@
     <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
         <ul class="space-y-2 font-medium">
             <li>
-                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <a href="{{ route('inicio') }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <span class="ms-3">Dashboard</span>
                 </a>
             </li>
-
-
             @auth
                 <li>
                     <a href="{{ route('mis-posts') }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -66,7 +70,6 @@
                     </a>
                 </li>
             @endauth
-
             <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
 
             @php
