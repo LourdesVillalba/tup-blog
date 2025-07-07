@@ -3,9 +3,17 @@
 @section('title', 'Panel de Administración')
 
 @section('content')
-    <div class="max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded shadow">
-        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Panel de Administración</h1>
+    <div class="max-w-4xl mx-auto space-y-10">
+        {{-- Sección de usuarios --}}
+        <div class="bg-white dark:bg-gray-800 p-6 rounded shadow">
+            <h2 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Administrar Usuarios</h2>
+            @livewire('admin-usuarios')
+        </div>
 
-        @livewire('admin-usuarios')
+        {{-- Sección de categorías --}}
+        <div class="bg-white dark:bg-gray-800 p-6 rounded shadow">
+            <h2 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Administrar Categorías</h2>
+            @livewire('categoria-crud')
+        </div>
     </div>
 @endsection
