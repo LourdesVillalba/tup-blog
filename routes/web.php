@@ -6,6 +6,7 @@ use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\PostCrud;
 use App\Models\Post; 
+use App\Livewire\ListaPostsPublicos;
 
 
 // Ruta para la página de inicio
@@ -26,7 +27,6 @@ Route::get('/login', Login::class)->name('login');
 Route::get('/register', Register::class)->name('register');
 
 
-/////////////////////////////////////////////////////////
 Route::get('/mis-posts', function () {
     return view('mis-posts');
 })->middleware('auth')->name('mis-posts');
@@ -39,3 +39,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     })->name('admin.panel');
 });
 
+
+
+Route::get('/categoria/{id}', ListaPostsPublicos::class)->name('posts.por-categoria');

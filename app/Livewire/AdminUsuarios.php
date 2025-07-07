@@ -7,7 +7,6 @@ use App\Models\User;
 
 class AdminUsuarios extends Component
 {
-    public $busqueda = '';
 
     public function eliminar($id)
     {
@@ -22,13 +21,11 @@ class AdminUsuarios extends Component
 
     public function render()
     {
-        $usuarios = User::query()
-            ->where('name', 'like', '%' . $this->busqueda . '%')
-            ->orWhere('email', 'like', '%' . $this->busqueda . '%')
-            ->orderBy('name')
-            ->get();
-
+        $usuarios = User::orderBy('name')->get();
+    
         return view('livewire.admin-usuarios', compact('usuarios'));
     }
+    
+    
 }
 

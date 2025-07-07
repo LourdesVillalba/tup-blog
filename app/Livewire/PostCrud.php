@@ -18,16 +18,23 @@ class PostCrud extends Component
     public $iteration = 0;////////
     protected $listeners = ['abrirModalCrearDesdeNavbar' => 'abrirModalCrear'];
 
+    public $categoria_id;
+    public $categorias;
 
     protected $rules = [
         'titulo' => 'required|string|max:255',
         'contenido' => 'required|string',
+        'categoria_id' => 'required|exists:categorias,id',
         'imagen' => 'nullable|image|max:2048',
     ];
 
     public function render()
     {
-        $this->posts = Post::where('user_id', Auth::id())->orderByDesc('created_at')->get();
+        $this->posts = Post::with('categoria')
+            ->where('user_id', Auth::id())
+            ->orderByDesc('created_at')
+            ->get();
+    
         return view('livewire.post-crud')->layout('layouts.app');
     }
     
@@ -37,6 +44,7 @@ class PostCrud extends Component
         $this->titulo = '';
         $this->contenido = '';
         $this->imagen = null;
+        $this->categoria_id = null;
         $this->post_id = null;
         $this->modoEdicion = false;
         $this->iteration++;
@@ -53,6 +61,7 @@ class PostCrud extends Component
                 'titulo' => $this->titulo,
                 'contenido' => $this->contenido,
                 'imagen' => $imagenPath,
+                'categoria_id' => $this->categoria_id,
                 'user_id' => Auth::id(),
             ]);
     
@@ -73,13 +82,14 @@ class PostCrud extends Component
         $this->titulo = $post->titulo;
         $this->contenido = $post->contenido;
         $this->post_id = $post->id;
+        $this->categoria_id = $post->categoria_id;
         $this->modoEdicion = true;
         $this->mostrarModal = true;
     }
 
         public function cerrarModal()
     {
-        $this->reset(['titulo', 'contenido', 'imagen', 'modoEdicion']);
+        $this->reset(['titulo', 'contenido', 'imagen', 'categoria_id', 'modoEdicion']);
         $this->mostrarModal = false;
     }
 
@@ -96,25 +106,25 @@ class PostCrud extends Component
     
         $post = Post::findOrFail($this->post_id);
     
-        // Si se sube una nueva imagen, eliminar la anterior
         if ($this->imagen && $post->imagen && \Storage::disk('public')->exists($post->imagen)) {
             \Storage::disk('public')->delete($post->imagen);
         }
     
-        // Guardar nueva imagen si hay
         $imagenPath = $this->imagen ? $this->imagen->store('posts', 'public') : $post->imagen;
     
         $post->update([
             'titulo' => $this->titulo,
             'contenido' => $this->contenido,
             'imagen' => $imagenPath,
+            'categoria_id' => $this->categoria_id, // ✅ Esto era lo que faltaba
         ]);
     
         session()->flash('mensaje', 'Post actualizado correctamente.');
         $this->resetCampos();
         $this->mostrarModal = false;
-
     }
+    
+
     
 
     public function eliminar($id)
@@ -132,9 +142,10 @@ class PostCrud extends Component
     }
     
     /////////////////////////////////////////////
-        public function mount($soloFormulario = false)
+    public function mount($soloFormulario = false)
     {
         $this->soloFormulario = $soloFormulario;
+        $this->categorias = \App\Models\Categoria::orderBy('nombre')->get();
     }
-
+    
 }

@@ -8,11 +8,6 @@
         </div>
     @endif
 
-    <div class="mb-4">
-        <input type="text" wire:model.debounce.500ms="busqueda" placeholder="Buscar por nombre o email"
-            class="w-full border px-4 py-2 rounded bg-white dark:bg-gray-900 dark:text-white">
-    </div>
-
     <table class="w-full text-sm">
         <thead class="text-left text-gray-500 border-b dark:border-gray-700">
             <tr>
